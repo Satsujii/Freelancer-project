@@ -1,0 +1,43 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Client Profile</h1>
+      <p>Your account details</p>
+    </div>
+
+    <div *ngIf="loading" class="full-width" style="text-align:center;">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+    <div *ngIf="error" class="full-width">
+      <mat-error>{{ error }}</mat-error>
+    </div>
+
+    <form *ngIf="!loading && profile" [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Company Name</mat-label>
+        <input matInput formControlName="companyName" [readonly]="!editMode">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Bio</mat-label>
+        <textarea matInput formControlName="bio" [readonly]="!editMode"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Website</mat-label>
+        <input matInput formControlName="website" [readonly]="!editMode">
+      </mat-form-field>
+      <div class="full-width" style="margin-bottom: 16px;">
+        <strong>Created at:</strong> {{ profile.createdAt | date }}
+      </div>
+      <div *ngIf="!editMode">
+        <button mat-raised-button color="primary" type="button" (click)="enableEdit()">Edit</button>
+      </div>
+      <div *ngIf="editMode">
+        <button mat-raised-button color="primary" type="submit" [disabled]="saving">
+          <mat-spinner *ngIf="saving" diameter="20"></mat-spinner>
+          <span *ngIf="!saving">Save</span>
+        </button>
+        <button mat-button type="button" (click)="cancelEdit()" [disabled]="saving">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

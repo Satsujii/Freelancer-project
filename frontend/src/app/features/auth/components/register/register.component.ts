@@ -95,9 +95,18 @@ export class RegisterComponent implements OnInit {
     this.authService.register(registerData).subscribe({
       next: (response) => {
         this.toastr.success('Registration successful!', 'Welcome');
-        if (response && response.user) {
-          console.log('Registration successful:', response.user);
-          this.redirectUser(response.user);
+        if (response && response.token && response.id && response.name && response.email && response.role) {
+          console.log('Registration successful:', response);
+          const user = {
+            id: response.id,
+            name: response.name,
+            email: response.email,
+            role: response.role as UserRole,
+            enabled: true,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          };
+          this.redirectUser(user);
         } else {
           this.toastr.error('Unexpected response from server.', 'Registration Error');
           console.error('Unexpected registration response:', response);

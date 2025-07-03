@@ -57,23 +57,22 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(email, password).subscribe({
       next: (response) => {
-        const res: any = response;
-        if (res && res.token && res.id && res.name && res.email && res.role) {
-          this.toastr.success(`Welcome, ${res.name}!`, 'Login successful!');
-          console.log('Login successful:', res);
+        if (response && response.token && response.id && response.name && response.email && response.role) {
+          this.toastr.success(`Welcome, ${response.name}!`, 'Login successful!');
+          console.log('Login successful:', response);
           const user = {
-            id: res.id,
-            name: res.name,
-            email: res.email,
-            role: res.role,
-            enabled: res.enabled !== undefined ? res.enabled : true,
-            createdAt: res.createdAt ? new Date(res.createdAt) : new Date(),
-            updatedAt: res.updatedAt ? new Date(res.updatedAt) : new Date()
+            id: response.id,
+            name: response.name,
+            email: response.email,
+            role: response.role as UserRole,
+            enabled: true,
+            createdAt: new Date(),
+            updatedAt: new Date()
           };
           this.redirectUser(user);
         } else {
           this.toastr.error('Unexpected response from server.', 'Login Error');
-          console.error('Unexpected response:', res);
+          console.error('Unexpected response:', response);
           this.loading = false;
         }
       },
@@ -96,7 +95,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/freelancer/dashboard']);
         break;
       case UserRole.CLIENT:
-        this.router.navigate(['/client/dashboard']);
+        this.router.navigate(['/client/profile']);
         break;
       default:
         this.router.navigate(['/dashboard']);

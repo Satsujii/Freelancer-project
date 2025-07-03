@@ -67,9 +67,21 @@ export class AuthService {
 
   private setSession(authResponse: AuthResponse): void {
     this.storageService.setToken(authResponse.token);
-    this.storageService.setRefreshToken(authResponse.refreshToken);
-    this.storageService.setUser(authResponse.user);
-    this.currentUserSubject.next(authResponse.user);
+    if (authResponse.refreshToken) {
+      this.storageService.setRefreshToken(authResponse.refreshToken);
+    }
+    // Build a User object from the response
+    const user = {
+      id: authResponse.id,
+      name: authResponse.name,
+      email: authResponse.email,
+      role: authResponse.role as UserRole,
+      enabled: true,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.storageService.setUser(user);
+    this.currentUserSubject.next(user);
   }
 
   private loadUserFromStorage(): void {

@@ -2,7 +2,13 @@ import { User } from './user.model';
 
 export interface AuthResponse {
   token: string;
-  refreshToken: string;
-  user: User;
-  expiresIn: number;
+  refreshToken?: string;
+  expiresIn?: number;
+  // Backend fields
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  authorities?: string[];
+  type?: string | null;
 }
