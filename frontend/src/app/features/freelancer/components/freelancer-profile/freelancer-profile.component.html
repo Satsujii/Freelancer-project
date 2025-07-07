@@ -14,14 +14,14 @@
     <span>{{ error }}</span>
   </div>
   <form *ngIf="!loading && profile" [formGroup]="profileForm" (ngSubmit)="saveProfile()">
-    <h3 mat-card-title>Client Profile</h3>
-    <mat-form-field appearance="outline">
-      <mat-label>Company Name</mat-label>
-      <input matInput formControlName="companyName" [readonly]="!editMode" />
-    </mat-form-field>
+    <h3 mat-card-title>Freelancer Profile</h3>
     <mat-form-field appearance="outline">
       <mat-label>Bio</mat-label>
       <textarea matInput formControlName="bio" [readonly]="!editMode"></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Skills (comma separated)</mat-label>
+      <input matInput formControlName="skills" [readonly]="!editMode" />
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Website</mat-label>
@@ -29,9 +29,9 @@
     </mat-form-field>
     <div class="form-actions">
       <button mat-raised-button color="primary" type="button" *ngIf="!editMode" (click)="enableEdit()">Edit</button>
-      <button mat-raised-button color="primary" type="submit" *ngIf="editMode && !saving">Save</button>
+      <button mat-raised-button color="primary" type="submit" *ngIf="editMode && !saving">Update</button>
       <button mat-button type="button" *ngIf="editMode" (click)="cancelEdit()">Cancel</button>
       <mat-progress-spinner *ngIf="saving" mode="indeterminate" diameter="24"></mat-progress-spinner>
     </div>
   </form>
-</mat-card>
+</mat-card> 

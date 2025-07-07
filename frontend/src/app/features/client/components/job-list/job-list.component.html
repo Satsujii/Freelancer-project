@@ -1,0 +1,49 @@
+<header>
+  <mat-toolbar color="primary" class="mat-elevation-z4 public-navbar">
+    <div class="logo-area">
+      <mat-icon class="logo-icon">work_outline</mat-icon>
+      <span class="brand">FREELANCE</span>
+    </div>
+    <span class="spacer"></span>
+    <button mat-stroked-button color="accent" routerLink="/auth/login">Sign In</button>
+  </mat-toolbar>
+</header>
+
+<section class="hero-section">
+  <div class="hero-content">
+    <h1>Find the Perfect Freelance Job</h1>
+    <p>Browse hundreds of freelance opportunities and start your next project today.</p>
+    <button mat-raised-button color="accent" (click)="scrollToJobs()">Browse Jobs</button>
+  </div>
+</section>
+
+<div class="jobs-section" #jobsSection>
+  <div class="jobs-grid">
+    <mat-card *ngFor="let job of jobs" class="job-card">
+      <mat-card-header>
+        <mat-card-title>{{ job.title }}</mat-card-title>
+        <mat-card-subtitle>by {{ job.clientName }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ job.description }}</p>
+        <div class="job-details">
+          <span><mat-icon>attach_money</mat-icon> {{ job.budget | currency }}</span>
+          <span><mat-icon>event</mat-icon> {{ job.deadline | date }}</span>
+          <span><mat-icon>flag</mat-icon> {{ job.status }}</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <mat-card *ngIf="loading" class="loading-card">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <span>Loading jobs...</span>
+  </mat-card>
+  <mat-card *ngIf="error" class="error-card">
+    <mat-icon color="warn">error</mat-icon>
+    <span>{{ error }}</span>
+  </mat-card>
+  <div *ngIf="!loading && !error && !jobs.length" class="empty-message">
+    <mat-icon>info</mat-icon>
+    <span>No jobs found.</span>
+  </div>
+</div> 

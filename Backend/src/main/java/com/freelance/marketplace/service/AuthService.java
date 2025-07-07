@@ -4,9 +4,11 @@ import com.freelance.marketplace.dto.AuthResponse;
 import com.freelance.marketplace.dto.LoginRequest;
 import com.freelance.marketplace.dto.RegisterRequest;
 import com.freelance.marketplace.entity.ClientProfile;
+import com.freelance.marketplace.entity.FreelancerProfile;
 import com.freelance.marketplace.entity.Role;
 import com.freelance.marketplace.exception.ResourceNotFoundException;
 import com.freelance.marketplace.repository.ClientProfileRepository;
+import com.freelance.marketplace.repository.FreelancerProfileRepository;
 import com.freelance.marketplace.repository.UserRepository;
 import com.freelance.marketplace.security.CustomUserPrincipal;
 import jakarta.transaction.Transactional;
@@ -41,6 +43,9 @@ public class AuthService {
 
     @Autowired
     private ClientProfileRepository clientRepo;
+
+    @Autowired
+    private FreelancerProfileRepository freelancerRepo;
 
     public AuthResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -107,7 +112,11 @@ public class AuthService {
             ClientProfile profile = new ClientProfile();
             profile.setUser(user);
             clientRepo.save(profile);
+        } else if (user.getRole() == Role.FREELANCER) {
+            FreelancerProfile profile = new FreelancerProfile();
+            profile.setUser(user);
+            freelancerRepo.save(profile);
         }
-        // You can add similar logic for freelancer/admin if needed
+        // You can add similar logic for admin if needed
     }
 }

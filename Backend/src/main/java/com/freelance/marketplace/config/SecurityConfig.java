@@ -4,6 +4,7 @@ import com.freelance.marketplace.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -49,9 +50,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/jobs/public/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/jobs/**").hasRole("CLIENT")
+                        .requestMatchers(HttpMethod.PUT, "/api/jobs/**").hasRole("CLIENT")
+                        .requestMatchers(HttpMethod.DELETE, "/api/jobs/**").hasRole("CLIENT")
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/freelancer/**").hasRole("FREELANCER")
                         .requestMatchers("/api/clients/**").hasRole("CLIENT")
+                        .requestMatchers("/api/jobs/**").authenticated()
                         .anyRequest().authenticated()
                 );
 

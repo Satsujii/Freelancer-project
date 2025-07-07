@@ -1,0 +1,50 @@
+.navbar {
+  display: flex;
+  gap: 1rem;
+  background: #1976d2;
+  padding: 1rem;
+}
+
+.navbar button {
+  background: #fff;
+  color: #1976d2;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.navbar button.active, .navbar button:hover {
+  background: #1565c0;
+  color: #fff;
+}
+
+.mat-toolbar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.dashboard-content {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+button.active {
+  background: #1565c0;
+  color: #fff;
+} 

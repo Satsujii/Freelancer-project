@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { ClientProfileService } from 'src/app/core/services/client-profile.service';
-import { ClientProfile } from 'src/app/core/models/client-profile.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
+import { FreelancerProfileService } from 'src/app/core/services/freelancer-profile.service';
+import { FreelancerProfile } from 'src/app/core/models/freelancer-profile.model';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
-  selector: 'app-client-profile',
-  templateUrl: './client-profile.component.html',
-  styleUrls: ['./client-profile.component.scss']
+  selector: 'app-freelancer-profile',
+  templateUrl: './freelancer-profile.component.html',
+  styleUrls: ['./freelancer-profile.component.scss']
 })
-export class ClientProfileComponent implements OnInit {
-  profile?: ClientProfile;
+export class FreelancerProfileComponent implements OnInit {
+  profile?: FreelancerProfile;
   loading = true;
   error?: string;
   editMode = false;
@@ -19,7 +19,7 @@ export class ClientProfileComponent implements OnInit {
   saving = false;
 
   constructor(
-    private clientProfileService: ClientProfileService,
+    private freelancerProfileService: FreelancerProfileService,
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
@@ -31,13 +31,13 @@ export class ClientProfileComponent implements OnInit {
 
   fetchProfile() {
     this.loading = true;
-    this.clientProfileService.getProfile().subscribe({
+    this.freelancerProfileService.getProfile().subscribe({
       next: (profile) => {
         this.profile = profile;
         this.loading = false;
         this.profileForm = this.fb.group({
-          companyName: [profile.companyName],
           bio: [profile.bio],
+          skills: [profile.skills ? profile.skills.join(', ') : ''],
           website: [profile.website]
         });
       },
@@ -56,8 +56,8 @@ export class ClientProfileComponent implements OnInit {
     this.editMode = false;
     if (this.profile) {
       this.profileForm.patchValue({
-        companyName: this.profile.companyName,
         bio: this.profile.bio,
+        skills: this.profile.skills ? this.profile.skills.join(', ') : '',
         website: this.profile.website
       });
     }
@@ -66,7 +66,12 @@ export class ClientProfileComponent implements OnInit {
   saveProfile() {
     if (!this.profileForm.valid) return;
     this.saving = true;
-    this.clientProfileService.updateProfile(this.profileForm.value).subscribe({
+    const formValue = this.profileForm.value;
+    const updatePayload = {
+      ...formValue,
+      skills: formValue.skills.split(',').map((s: string) => s.trim())
+    };
+    this.freelancerProfileService.updateProfile(updatePayload).subscribe({
       next: (updated) => {
         this.profile = updated;
         this.editMode = false;
@@ -82,4 +87,4 @@ export class ClientProfileComponent implements OnInit {
   logout() {
     this.authService.logout();
   }
-}
+} 
