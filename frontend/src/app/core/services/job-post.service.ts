@@ -32,4 +32,27 @@ export class JobPostService {
   getJobsByClient(): Observable<JobPostResponse[]> {
     return this.http.get<JobPostResponse[]>(`${this.apiUrl}/my-jobs`);
   }
+
+  getJobsForFreelancers(filters?: {
+    title?: string;
+    minBudget?: number;
+    maxBudget?: number;
+    status?: string;
+  }): Observable<JobPostResponse[]> {
+    let params = '';
+    if (filters) {
+      const query = Object.entries(filters)
+        .filter(([_, v]) => v !== undefined && v !== null && v !== '')
+        .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v as string)}`)
+        .join('&');
+      if (query) {
+        params = '?' + query;
+      }
+    }
+    return this.http.get<JobPostResponse[]>(`${this.apiUrl}/freelancer${params}`);
+  }
+
+  updateJobStatus(jobId: number, status: string) {
+    return this.http.patch<JobPostResponse>(`${this.apiUrl}/${jobId}/status`, { status });
+  }
 } 

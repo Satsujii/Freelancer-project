@@ -18,8 +18,8 @@ import { FreelancerProfileComponent } from '../freelancer/components/freelancer-
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent,
-    FreelancerProfileComponent
+    RegisterComponent
+    // FreelancerProfileComponent removed to avoid duplicate declaration
   ],
   imports: [
     CommonModule,

@@ -1,37 +1,82 @@
-<mat-card class="profile-card">
-  <div class="profile-header">
-    <span></span>
-    <button mat-stroked-button color="warn" (click)="logout()">
-      <mat-icon>logout</mat-icon> Logout
-    </button>
-  </div>
-  <div *ngIf="loading" class="loading">
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    <span>Loading profile...</span>
-  </div>
-  <div *ngIf="error" class="error">
-    <mat-icon color="warn">error</mat-icon>
-    <span>{{ error }}</span>
-  </div>
-  <form *ngIf="!loading && profile" [formGroup]="profileForm" (ngSubmit)="saveProfile()">
-    <h3 mat-card-title>Freelancer Profile</h3>
-    <mat-form-field appearance="outline">
-      <mat-label>Bio</mat-label>
-      <textarea matInput formControlName="bio" [readonly]="!editMode"></textarea>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Skills (comma separated)</mat-label>
-      <input matInput formControlName="skills" [readonly]="!editMode" />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Website</mat-label>
-      <input matInput formControlName="website" [readonly]="!editMode" />
-    </mat-form-field>
-    <div class="form-actions">
-      <button mat-raised-button color="primary" type="button" *ngIf="!editMode" (click)="enableEdit()">Edit</button>
-      <button mat-raised-button color="primary" type="submit" *ngIf="editMode && !saving">Update</button>
-      <button mat-button type="button" *ngIf="editMode" (click)="cancelEdit()">Cancel</button>
-      <mat-progress-spinner *ngIf="saving" mode="indeterminate" diameter="24"></mat-progress-spinner>
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <span class="logo">Freelancer Dashboard</span>
+  <span class="spacer"></span>
+  <button mat-button (click)="showSection = 'profile'" [class.active]="showSection === 'profile'">Profile</button>
+  <button mat-button (click)="showSection = 'jobs'" [class.active]="showSection === 'jobs'">Available Jobs</button>
+</mat-toolbar>
+
+<div *ngIf="showSection === 'profile'">
+  <!-- Existing profile form and logic -->
+  <mat-card class="profile-card">
+    <div class="profile-header">
+      <span></span>
+      <button mat-stroked-button color="warn" (click)="logout()">
+        <mat-icon>logout</mat-icon> Logout
+      </button>
     </div>
-  </form>
-</mat-card> 
+    <div *ngIf="loading" class="loading">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      <span>Loading profile...</span>
+    </div>
+    <div *ngIf="error" class="error">
+      <mat-icon color="warn">error</mat-icon>
+      <span>{{ error }}</span>
+    </div>
+    <form *ngIf="!loading && profile" [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+      <h3 mat-card-title>Freelancer Profile</h3>
+      <mat-form-field appearance="outline">
+        <mat-label>Bio</mat-label>
+        <textarea matInput formControlName="bio" [readonly]="!editMode"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Skills (comma separated)</mat-label>
+        <input matInput formControlName="skills" [readonly]="!editMode" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Website</mat-label>
+        <input matInput formControlName="website" [readonly]="!editMode" />
+      </mat-form-field>
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="button" *ngIf="!editMode" (click)="enableEdit()">Edit</button>
+        <button mat-raised-button color="primary" type="submit" *ngIf="editMode && !saving">Update</button>
+        <button mat-button type="button" *ngIf="editMode" (click)="cancelEdit()">Cancel</button>
+        <mat-progress-spinner *ngIf="saving" mode="indeterminate" diameter="24"></mat-progress-spinner>
+      </div>
+    </form>
+  </mat-card>
+</div>
+
+<div *ngIf="showSection === 'jobs'">
+  <mat-card class="jobs-card">
+    <h3>Available Jobs</h3>
+    <div *ngIf="jobsLoading" class="loading">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      <span>Loading jobs...</span>
+    </div>
+    <div *ngIf="jobsError" class="error">
+      <mat-icon color="warn">error</mat-icon>
+      <span>{{ jobsError }}</span>
+    </div>
+    <div *ngIf="!jobsLoading && !jobsError && jobs.length === 0">
+      <span>No jobs available.</span>
+    </div>
+    <div class="job-list-container" *ngIf="!jobsLoading && !jobsError && jobs.length > 0">
+      <div class="job-list-item" *ngFor="let job of jobs" (click)="openJobDialog(job)">
+        <div class="job-list-header">
+          <span class="job-title">{{ job.title }}</span>
+          <span class="job-status" [ngClass]="job.status.toLowerCase()">{{ job.status }}</span>
+        </div>
+        <div class="job-list-body">
+          <span class="job-budget">Budget: <b>{{ job.budget | currency }}</b></span>
+          <span class="job-deadline">Deadline: <b>{{ job.deadline | date }}</b></span>
+        </div>
+        <div class="job-list-desc">{{ job.description }}</div>
+        <div class="job-list-footer">
+          <mat-icon>person</mat-icon>
+          <span><strong>{{ job.clientName }}</strong> ({{ job.clientEmail }})</span>
+          <span *ngIf="job.clientCompanyName"> | <mat-icon>business</mat-icon> {{ job.clientCompanyName }}</span>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div> 

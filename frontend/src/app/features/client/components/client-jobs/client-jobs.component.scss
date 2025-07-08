@@ -65,22 +65,42 @@ button {
 }
 
 .jobs-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
-  margin: 2rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 24px;
 }
-
 .job-card {
-  transition: box-shadow 0.2s, transform 0.2s;
+  width: 350px;
+  min-width: 280px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  border-radius: 12px;
-  padding: 1rem;
-  background: #fff;
+  border-radius: 10px;
+  transition: box-shadow 0.2s, transform 0.2s;
 }
 .job-card:hover {
-  box-shadow: 0 6px 24px rgba(25, 118, 210, 0.15);
-  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(25, 118, 210, 0.15);
+  transform: translateY(-2px) scale(1.01);
+}
+.status-select {
+  min-width: 120px;
+  margin-left: 12px;
+}
+.job-details {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  color: #1976d2;
+  font-weight: 500;
+}
+@media (max-width: 900px) {
+  .jobs-grid {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .job-card {
+    width: 100%;
+    min-width: unset;
+  }
 }
 .job-details {
   display: flex;

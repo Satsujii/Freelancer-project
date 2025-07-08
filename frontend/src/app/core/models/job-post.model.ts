@@ -18,4 +18,6 @@ export interface JobPostResponse {
   updatedAt: string;
   clientId: number;
   clientName: string;
+  clientEmail: string;
+  clientCompanyName: string;
 } 

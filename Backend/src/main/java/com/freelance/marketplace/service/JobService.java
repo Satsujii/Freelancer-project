@@ -8,21 +8,27 @@ import com.freelance.marketplace.entity.User;
 import com.freelance.marketplace.exception.ResourceNotFoundException;
 import com.freelance.marketplace.repository.JobPostRepository;
 import com.freelance.marketplace.repository.UserRepository;
+import com.freelance.marketplace.repository.ClientProfileRepository;
+import com.freelance.marketplace.entity.JobStatus;
+import com.freelance.marketplace.entity.ClientProfile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.math.BigDecimal;
 
 @Service
 public class JobService {
     private final JobPostRepository jobPostRepository;
     private final UserRepository userRepository;
+    private final ClientProfileRepository clientProfileRepository;
 
-    public JobService(JobPostRepository jobPostRepository, UserRepository userRepository) {
+    public JobService(JobPostRepository jobPostRepository, UserRepository userRepository, ClientProfileRepository clientProfileRepository) {
         this.jobPostRepository = jobPostRepository;
         this.userRepository = userRepository;
+        this.clientProfileRepository = clientProfileRepository;
     }
 
     @Transactional
@@ -59,6 +65,17 @@ public class JobService {
                 .collect(Collectors.toList());
     }
 
+    public List<JobPostResponse> getJobsForFreelancers(String title, BigDecimal minBudget, BigDecimal maxBudget, JobStatus status) {
+        List<JobPost> jobs = jobPostRepository.findAll();
+        return jobs.stream()
+            .filter(j -> title == null || j.getTitle().toLowerCase().contains(title.toLowerCase()))
+            .filter(j -> minBudget == null || j.getBudget().compareTo(minBudget) >= 0)
+            .filter(j -> maxBudget == null || j.getBudget().compareTo(maxBudget) <= 0)
+            .filter(j -> status == null || j.getStatus() == status)
+            .map(this::toJobResponse)
+            .collect(Collectors.toList());
+    }
+
     @Transactional
     public JobPostResponse updateJob(Long jobId, JobPostRequest request, Long clientId) {
         JobPost job = jobPostRepository.findById(jobId)
@@ -70,6 +87,18 @@ public class JobService {
         job.setDescription(request.getDescription());
         job.setBudget(request.getBudget());
         job.setDeadline(LocalDate.parse(request.getDeadline()));
+        job = jobPostRepository.save(job);
+        return toJobResponse(job);
+    }
+
+    @Transactional
+    public JobPostResponse updateJobStatus(Long jobId, JobStatus newStatus, Long clientId) {
+        JobPost job = jobPostRepository.findById(jobId)
+                .orElseThrow(() -> new ResourceNotFoundException("Job not found"));
+        if (!job.getClient().getId().equals(clientId)) {
+            throw new RuntimeException("Unauthorized");
+        }
+        job.setStatus(newStatus);
         job = jobPostRepository.save(job);
         return toJobResponse(job);
     }
@@ -97,6 +126,9 @@ public class JobService {
         resp.setUpdatedAt(job.getUpdatedAt());
         resp.setClientId(job.getClient().getId());
         resp.setClientName(job.getClient().getName());
+        resp.setClientEmail(job.getClient().getEmail());
+        ClientProfile clientProfile = clientProfileRepository.findByUserId(job.getClient().getId()).orElse(null);
+        resp.setClientCompanyName(clientProfile != null ? clientProfile.getCompanyName() : null);
         return resp;
     }
 }

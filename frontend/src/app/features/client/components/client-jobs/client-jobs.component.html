@@ -40,7 +40,14 @@
   <mat-card *ngFor="let job of jobs" class="job-card">
     <mat-card-header>
       <mat-card-title>{{ job.title }}</mat-card-title>
-      <mat-card-subtitle>Status: {{ job.status }}</mat-card-subtitle>
+      <mat-card-subtitle>
+        <mat-form-field appearance="fill" class="status-select">
+          <mat-label>Status</mat-label>
+          <mat-select [value]="job.status" (selectionChange)="updateStatus(job, $event.value)">
+            <mat-option *ngFor="let status of jobStatuses" [value]="status">{{ status }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <p>{{ job.description }}</p>

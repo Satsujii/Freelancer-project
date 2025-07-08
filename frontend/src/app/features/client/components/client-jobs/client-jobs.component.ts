@@ -15,6 +15,7 @@ export class ClientJobsComponent implements OnInit {
   jobForm: FormGroup;
   editingJob: JobPostResponse | null = null;
   submitting = false;
+  jobStatuses = ['OPEN', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED'];
 
   constructor(private jobService: JobPostService, private fb: FormBuilder) {
     this.jobForm = this.fb.group({
@@ -94,6 +95,18 @@ export class ClientJobsComponent implements OnInit {
     this.jobService.deleteJob(job.id).subscribe({
       next: () => this.fetchJobs(),
       error: () => this.error = 'Failed to delete job'
+    });
+  }
+
+  updateStatus(job: JobPostResponse, newStatus: string) {
+    if (job.status === newStatus) return;
+    this.jobService.updateJobStatus(job.id, newStatus).subscribe({
+      next: updatedJob => {
+        job.status = updatedJob.status;
+      },
+      error: () => {
+        this.error = 'Failed to update job status';
+      }
     });
   }
 } 

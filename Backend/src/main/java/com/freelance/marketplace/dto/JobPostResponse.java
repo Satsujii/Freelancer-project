@@ -18,4 +18,6 @@ public class JobPostResponse {
     private LocalDateTime updatedAt;
     private Long clientId;
     private String clientName;
+    private String clientEmail;
+    private String clientCompanyName;
 }

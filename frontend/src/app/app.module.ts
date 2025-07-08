@@ -20,9 +20,14 @@ import { ClientDashboardComponent } from './features/client/components/client-da
 import { ClientJobsComponent } from './features/client/components/client-jobs/client-jobs.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
+import { FreelancerProfileComponent } from './features/freelancer/components/freelancer-profile/freelancer-profile.component';
+import { JobDetailDialogComponent } from './features/freelancer/components/job-detail-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
-  declarations: [AppComponent, ClientProfileComponent, JobListComponent, ClientDashboardComponent, ClientJobsComponent],
+  declarations: [AppComponent, ClientProfileComponent, JobListComponent, ClientDashboardComponent, ClientJobsComponent, FreelancerProfileComponent, JobDetailDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -38,7 +43,10 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatToolbarModule,
     MatCardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatChipsModule,
+    MatSelectModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

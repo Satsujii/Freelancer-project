@@ -28,4 +28,115 @@ mat-form-field {
   justify-content: flex-end;
   align-items: center;
   margin-bottom: 1rem;
+}
+
+.job-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start;
+}
+
+.job-card {
+  width: 350px;
+  margin: 8px 0;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.job-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  transform: translateY(-2px) scale(1.01);
+}
+.job-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.job-body {
+  margin: 8px 0;
+}
+.job-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95em;
+  color: #555;
+  margin-top: 8px;
+}
+
+.job-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.job-list-item {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  background: #fff;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.job-list-item:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  border-color: #1976d2;
+}
+.job-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.job-title {
+  font-size: 1.15em;
+  font-weight: 600;
+}
+.job-status {
+  font-size: 0.95em;
+  font-weight: 500;
+  padding: 2px 10px;
+  border-radius: 12px;
+  background: #e3f2fd;
+  color: #1976d2;
+  text-transform: capitalize;
+}
+.job-status.open { background: #e3f2fd; color: #1976d2; }
+.job-status.in_progress { background: #fffde7; color: #fbc02d; }
+.job-status.completed { background: #e8f5e9; color: #388e3c; }
+.job-status.cancelled { background: #ffebee; color: #d32f2f; }
+.job-list-body {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 8px;
+  font-size: 0.98em;
+}
+.job-list-desc {
+  margin-bottom: 8px;
+  color: #444;
+}
+.job-list-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95em;
+  color: #555;
+}
+@media (max-width: 800px) {
+  .job-cards-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .job-card {
+    width: 100%;
+  }
+  .job-list-item {
+    padding: 12px;
+  }
+  .job-list-body {
+    flex-direction: column;
+    gap: 8px;
+  }
 } 

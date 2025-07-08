@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { FreelancerProfileService } from 'src/app/core/services/freelancer-profile.service';
 import { FreelancerProfile } from 'src/app/core/models/freelancer-profile.model';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { JobPostService } from 'src/app/core/services/job-post.service';
+import { JobPostResponse } from 'src/app/core/models/job-post.model';
+import { MatDialog } from '@angular/material/dialog';
+import { JobDetailDialogComponent } from '../job-detail-dialog.component';
 
 @Component({
   selector: 'app-freelancer-profile',
@@ -17,16 +21,24 @@ export class FreelancerProfileComponent implements OnInit {
   editMode = false;
   profileForm!: FormGroup;
   saving = false;
+  jobs: JobPostResponse[] = [];
+  jobsLoading = false;
+  jobsError?: string;
+  showSection: 'profile' | 'jobs' = 'profile';
+  selectedJob?: JobPostResponse;
 
   constructor(
     private freelancerProfileService: FreelancerProfileService,
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private jobPostService: JobPostService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.fetchProfile();
+    this.fetchJobs();
   }
 
   fetchProfile() {
@@ -44,6 +56,21 @@ export class FreelancerProfileComponent implements OnInit {
       error: (err) => {
         this.error = 'Failed to load profile.';
         this.loading = false;
+      }
+    });
+  }
+
+  fetchJobs(filters?: any) {
+    this.jobsLoading = true;
+    this.jobsError = undefined;
+    this.jobPostService.getJobsForFreelancers(filters).subscribe({
+      next: (jobs) => {
+        this.jobs = jobs;
+        this.jobsLoading = false;
+      },
+      error: (err) => {
+        this.jobsError = 'Failed to load jobs.';
+        this.jobsLoading = false;
       }
     });
   }
@@ -86,5 +113,13 @@ export class FreelancerProfileComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  openJobDialog(job: JobPostResponse) {
+    this.selectedJob = job;
+    this.dialog.open(JobDetailDialogComponent, {
+      data: job,
+      width: '400px',
+    });
   }
 } 
