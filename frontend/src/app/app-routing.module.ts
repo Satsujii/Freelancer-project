@@ -27,6 +27,12 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'admin',
+    loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule),
+    canActivate: [RoleGuard],
+    data: { roles: [UserRole.ADMIN] }
+  },
+  {
     path: 'jobs',
     component: JobListComponent
   },

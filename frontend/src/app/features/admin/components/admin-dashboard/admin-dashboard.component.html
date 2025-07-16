@@ -1,0 +1,14 @@
+<div class="dashboard-stats" *ngIf="!loading; else loadingTpl">
+  <h2>Admin Dashboard</h2>
+  <mat-card class="stat-card">
+    <h3>Total Jobs</h3>
+    <div class="stat-value">{{ totalJobs }}</div>
+  </mat-card>
+  <mat-card class="stat-card" *ngFor="let status of statistics | keyvalue">
+    <h3>{{ status.key }}</h3>
+    <div class="stat-value">{{ status.value }}</div>
+  </mat-card>
+</div>
+<ng-template #loadingTpl>
+  <mat-spinner></mat-spinner>
+</ng-template> 

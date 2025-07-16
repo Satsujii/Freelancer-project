@@ -87,19 +87,24 @@ export class LoginComponent implements OnInit {
 
   private redirectUser(user: User): void {
     // Redirect based on user role
+    let navigationPromise;
     switch (user.role) {
       case UserRole.ADMIN:
-        this.router.navigate(['/admin/dashboard']);
+        navigationPromise = this.router.navigate(['/admin']);
         break;
       case UserRole.FREELANCER:
-        this.router.navigate(['/freelancer/profile']);
+        navigationPromise = this.router.navigate(['/freelancer/profile']);
         break;
       case UserRole.CLIENT:
-        this.router.navigate(['/client/profile']);
+        navigationPromise = this.router.navigate(['/client/profile']);
         break;
       default:
-        this.router.navigate(['/dashboard']);
+        navigationPromise = this.router.navigate(['/dashboard']);
     }
+    // Always set loading to false after navigation
+    navigationPromise.finally(() => {
+      this.loading = false;
+    });
   }
 
   private markFormGroupTouched(): void {

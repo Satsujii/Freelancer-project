@@ -22,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.freelance.marketplace.entity.User;
+import com.freelance.marketplace.service.AdminService;
 
 import java.util.stream.Collectors;
 
@@ -46,6 +47,9 @@ public class AuthService {
 
     @Autowired
     private FreelancerProfileRepository freelancerRepo;
+
+    @Autowired
+    private AdminService adminService;
 
     public AuthResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -116,7 +120,8 @@ public class AuthService {
             FreelancerProfile profile = new FreelancerProfile();
             profile.setUser(user);
             freelancerRepo.save(profile);
+        } else if (user.getRole() == Role.ADMIN) {
+            adminService.createAdminProfileIfNotExists(user);
         }
-        // You can add similar logic for admin if needed
     }
 }

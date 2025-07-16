@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Edit User</h2>
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email">
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Role</mat-label>
+    <mat-select formControlName="role">
+      <mat-option *ngFor="let role of userRoles" [value]="role">{{ role }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-checkbox formControlName="enabled">Enabled</mat-checkbox>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="onSave()" [disabled]="form.invalid">Save</button>
+</mat-dialog-actions> 

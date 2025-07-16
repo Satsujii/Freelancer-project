@@ -25,6 +25,7 @@ import { JobDetailDialogComponent } from './features/freelancer/components/job-d
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
+import { AdminModule } from './features/admin/admin.module';
 
 @NgModule({
   declarations: [AppComponent, ClientProfileComponent, JobListComponent, ClientDashboardComponent, ClientJobsComponent, FreelancerProfileComponent, JobDetailDialogComponent],
@@ -46,7 +47,8 @@ import { MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
     MatDialogModule,
     MatChipsModule,
-    MatSelectModule
+    MatSelectModule,
+    AdminModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
