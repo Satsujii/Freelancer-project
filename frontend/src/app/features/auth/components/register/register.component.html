@@ -1,56 +1,29 @@
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <span class="logo">Freelance Platform</span>
+</mat-toolbar>
+
 <div class="auth-container">
-  <div class="auth-card register-card">
+  <mat-card class="auth-card">
     <div class="auth-header">
       <h1>Create Account</h1>
-      <p>Join our freelance marketplace</p>
+      <p>Sign up to get started</p>
     </div>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
-      <!-- Role Selection -->
-      <div class="role-selection">
-        <mat-radio-group formControlName="role" 
-                         (change)="onRoleChange($event.value)"
-                         class="role-group">
-          <mat-radio-button [value]="userRoles.FREELANCER" class="role-option">
-            <div class="role-content">
-              <mat-icon>work</mat-icon>
-              <span>I'm a Freelancer</span>
-              <small>Looking for work opportunities</small>
-            </div>
-          </mat-radio-button>
-          <mat-radio-button [value]="userRoles.CLIENT" class="role-option">
-            <div class="role-content">
-              <mat-icon>business</mat-icon>
-              <span>I'm a Client</span>
-              <small>Looking to hire freelancers</small>
-            </div>
-          </mat-radio-button>
-        </mat-radio-group>
-      </div>
-
       <!-- Name Field -->
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Full Name</mat-label>
-        <input matInput 
-               type="text" 
-               formControlName="name"
-               placeholder="Enter your full name">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" formControlName="name" placeholder="Enter your name" autocomplete="name">
         <mat-icon matSuffix>person</mat-icon>
         <mat-error *ngIf="f['name'].errors?.['required'] && f['name'].touched">
           Name is required
-        </mat-error>
-        <mat-error *ngIf="f['name'].errors?.['minlength'] && f['name'].touched">
-          Name must be at least 2 characters
         </mat-error>
       </mat-form-field>
 
       <!-- Email Field -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Email</mat-label>
-        <input matInput 
-               type="email" 
-               formControlName="email"
-               placeholder="Enter your email">
+        <input matInput type="email" formControlName="email" placeholder="Enter your email" autocomplete="email">
         <mat-icon matSuffix>email</mat-icon>
         <mat-error *ngIf="f['email'].errors?.['required'] && f['email'].touched">
           Email is required
@@ -60,32 +33,11 @@
         </mat-error>
       </mat-form-field>
 
-      <!-- Company Name (for clients only) -->
-      <mat-form-field appearance="outline" 
-                      class="full-width"
-                      *ngIf="selectedRole === userRoles.CLIENT">
-        <mat-label>Company Name</mat-label>
-        <input matInput 
-               type="text" 
-               formControlName="companyName"
-               placeholder="Enter your company name">
-        <mat-icon matSuffix>business</mat-icon>
-        <mat-error *ngIf="f['companyName'].errors?.['required'] && f['companyName'].touched">
-          Company name is required for clients
-        </mat-error>
-      </mat-form-field>
-
       <!-- Password Field -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Password</mat-label>
-        <input matInput 
-               [type]="hidePassword ? 'password' : 'text'"
-               formControlName="password"
-               placeholder="Create a password">
-        <button mat-icon-button 
-                matSuffix 
-                type="button"
-                (click)="hidePassword = !hidePassword">
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="Enter your password" autocomplete="new-password">
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
         <mat-error *ngIf="f['password'].errors?.['required'] && f['password'].touched">
@@ -99,44 +51,35 @@
       <!-- Confirm Password Field -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Confirm Password</mat-label>
-        <input matInput 
-               [type]="hideConfirmPassword ? 'password' : 'text'"
-               formControlName="confirmPassword"
-               placeholder="Confirm your password">
-        <button mat-icon-button 
-                matSuffix 
-                type="button"
-                (click)="hideConfirmPassword = !hideConfirmPassword">
+        <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" placeholder="Confirm your password" autocomplete="new-password">
+        <button mat-icon-button matSuffix type="button" (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
           <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
         <mat-error *ngIf="f['confirmPassword'].errors?.['required'] && f['confirmPassword'].touched">
-          Please confirm your password
+          Confirm password is required
         </mat-error>
-        <mat-error *ngIf="registerForm.errors?.['passwordMismatch'] && f['confirmPassword'].touched">
+        <mat-error *ngIf="f['confirmPassword'].errors?.['mismatch'] && f['confirmPassword'].touched">
           Passwords do not match
         </mat-error>
       </mat-form-field>
 
-      <!-- Terms and Conditions -->
-      <div class="terms-section">
-        <mat-checkbox formControlName="terms" class="terms-checkbox">
-          I agree to the <a href="/terms" target="_blank">Terms of Service</a> 
-          and <a href="/privacy" target="_blank">Privacy Policy</a>
-        </mat-checkbox>
-        <mat-error *ngIf="f['terms'].errors?.['required'] && f['terms'].touched">
-          You must agree to the terms and conditions
+      <!-- Role Field -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role">
+          <mat-option value="CLIENT">Client</mat-option>
+          <mat-option value="FREELANCER">Freelancer</mat-option>
+        </mat-select>
+        <mat-error *ngIf="f['role'].errors?.['required'] && f['role'].touched">
+          Role is required
         </mat-error>
-      </div>
+      </mat-form-field>
 
       <!-- Submit Button -->
-      <button mat-raised-button 
-              color="primary" 
-              type="submit"
-              class="submit-btn full-width"
-              [disabled]="loading">
+      <button mat-raised-button color="primary" type="submit" class="submit-btn full-width" [disabled]="loading">
         <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
-        <span *ngIf="!loading">Create Account</span>
-        <span *ngIf="loading">Creating Account...</span>
+        <span *ngIf="!loading">Sign Up</span>
+        <span *ngIf="loading">Signing Up...</span>
       </button>
 
       <!-- Login Link -->
@@ -146,5 +89,5 @@
         </p>
       </div>
     </form>
-  </div>
+  </mat-card>
 </div>

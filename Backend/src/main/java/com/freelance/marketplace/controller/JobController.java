@@ -81,6 +81,15 @@ public class JobController {
         return ResponseEntity.ok(job);
     }
 
+    // Mark job as completed (Freelancer only)
+    @PatchMapping("/{id}/complete")
+    public ResponseEntity<JobPostResponse> markJobAsCompleted(@PathVariable Long id,
+                                                             @AuthenticationPrincipal CustomUserPrincipal userDetails) {
+        Long freelancerId = getCurrentUserId(userDetails);
+        JobPostResponse job = jobService.markJobAsCompleted(id, freelancerId);
+        return ResponseEntity.ok(job);
+    }
+
     // List jobs by current client
     @GetMapping("/my-jobs")
     public List<JobPostResponse> getJobsByClient(@AuthenticationPrincipal CustomUserPrincipal userDetails) {
@@ -101,7 +110,7 @@ public class JobController {
 
     // Utility: fetch current user ID from CustomUserPrincipal
     private Long getCurrentUserId(CustomUserPrincipal userDetails) {
-        return userDetails.getUser().getId();
+        return userDetails.getId();
     }
 }
 

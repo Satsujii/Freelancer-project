@@ -1,0 +1,52 @@
+<div class="container">
+  <h1 class="page-title">Applications for Job</h1>
+
+  <mat-card class="job-details-card" *ngIf="job">
+    <mat-card-title>{{ job.title }}</mat-card-title>
+    <mat-card-content>
+      <div class="job-info-row">
+        <div><strong>Status:</strong> {{ job.status }}</div>
+        <div><strong>Budget:</strong> {{ job.budget | currency }}</div>
+        <div><strong>Deadline:</strong> {{ job.deadline | date }}</div>
+      </div>
+      <div class="job-description"><strong>Description:</strong> {{ job.description }}</div>
+    </mat-card-content>
+  </mat-card>
+
+  <h2 class="section-title">Applications</h2>
+
+  <mat-card *ngIf="loading" class="loading-card">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <p>Loading applications...</p>
+  </mat-card>
+
+  <mat-card *ngIf="error" class="error-card">
+    <mat-icon color="warn">error</mat-icon>
+    <span>{{ error }}</span>
+  </mat-card>
+
+  <div *ngIf="!loading && !error && applications.length === 0" class="empty-state">
+    <mat-icon>inbox</mat-icon>
+    <p>No applications found for this job.</p>
+  </div>
+
+  <div *ngIf="!loading && !error && applications.length > 0" class="applications-list">
+    <mat-card class="application-card" *ngFor="let app of applications">
+      <div class="application-header">
+        <mat-icon>person</mat-icon>
+        <div>
+          <div class="freelancer-name">{{ app.freelancerName }}</div>
+          <div class="freelancer-email">{{ app.freelancerEmail }}</div>
+        </div>
+        <div class="application-status" [ngClass]="app.status.toLowerCase()">{{ app.status }}</div>
+      </div>
+      <div class="application-meta">
+        <span>Applied: {{ app.appliedAt | date:'medium' }}</span>
+      </div>
+      <div class="application-actions">
+        <button mat-stroked-button color="primary" (click)="accept(app.id)" [disabled]="app.status !== 'PENDING'">Confirm</button>
+        <button mat-stroked-button color="warn" (click)="reject(app.id)" [disabled]="app.status !== 'PENDING'">Refuse</button>
+      </div>
+    </mat-card>
+  </div>
+</div>

@@ -7,6 +7,8 @@ import { JobListComponent } from './features/client/components/job-list/job-list
 import { ClientDashboardComponent } from './features/client/components/client-dashboard/client-dashboard.component';
 import { ClientJobsComponent } from './features/client/components/client-jobs/client-jobs.component';
 import { FreelancerProfileComponent } from './features/freelancer/components/freelancer-profile/freelancer-profile.component';
+import { MyApplicationsComponent } from './features/freelancer/components/my-applications/my-applications.component';
+import { ViewApplicationsComponent } from './features/client/components/view-applications/view-applications.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
@@ -23,7 +25,17 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'jobs', pathMatch: 'full' },
       { path: 'jobs', component: ClientJobsComponent },
+      { path: 'jobs/:jobId/applications', component: ViewApplicationsComponent },
       { path: 'profile', component: ClientProfileComponent }
+    ]
+  },
+  {
+    path: 'freelancer',
+    canActivate: [RoleGuard],
+    data: { roles: [UserRole.FREELANCER] },
+    children: [
+      { path: 'profile', component: FreelancerProfileComponent },
+      { path: 'applications', component: MyApplicationsComponent }
     ]
   },
   {
@@ -36,7 +48,6 @@ const routes: Routes = [
     path: 'jobs',
     component: JobListComponent
   },
-  { path: 'freelancer/profile', component: FreelancerProfileComponent },
   { path: '**', redirectTo: 'auth/login' }
 ];
 

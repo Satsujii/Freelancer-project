@@ -16,6 +16,7 @@ export class ClientJobsComponent implements OnInit {
   editingJob: JobPostResponse | null = null;
   submitting = false;
   jobStatuses = ['OPEN', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED'];
+  showJobForm = false;
 
   constructor(private jobService: JobPostService, private fb: FormBuilder) {
     this.jobForm = this.fb.group({
@@ -44,8 +45,16 @@ export class ClientJobsComponent implements OnInit {
     });
   }
 
+  toggleJobForm() {
+    this.showJobForm = !this.showJobForm;
+    if (!this.showJobForm) {
+      this.jobForm.reset();
+    }
+  }
+
   startEdit(job: JobPostResponse) {
     this.editingJob = job;
+    this.showJobForm = true;
     this.jobForm.patchValue({
       title: job.title,
       description: job.description,
@@ -56,6 +65,7 @@ export class ClientJobsComponent implements OnInit {
 
   cancelEdit() {
     this.editingJob = null;
+    this.showJobForm = false;
     this.jobForm.reset();
   }
 

@@ -24,7 +24,7 @@ export class FreelancerProfileComponent implements OnInit {
   jobs: JobPostResponse[] = [];
   jobsLoading = false;
   jobsError?: string;
-  showSection: 'profile' | 'jobs' = 'profile';
+  showSection: 'profile' | 'jobs' | 'applications' = 'profile';
   selectedJob?: JobPostResponse;
 
   constructor(

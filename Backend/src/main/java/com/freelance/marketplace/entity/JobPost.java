@@ -23,6 +23,10 @@ public class JobPost {
     @JoinColumn(name = "client_id", nullable = false)
     private User client;
 
+    @ManyToOne
+    @JoinColumn(name = "freelancer_id")
+    private User freelancer;
+
     @Column(nullable = false, length = 200)
     private String title;
 

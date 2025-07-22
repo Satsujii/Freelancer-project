@@ -5,7 +5,7 @@ export interface JobPostRequest {
   budget: number;
 }
 
-export type JobStatus = 'OPEN' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+export type JobStatus = 'OPEN' | 'PENDING_ASSIGNMENT' | 'ASSIGNED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 
 export interface JobPostResponse {
   id: number;
@@ -17,6 +17,7 @@ export interface JobPostResponse {
   createdAt: string;
   updatedAt: string;
   clientId: number;
+  freelancerId?: number; // Optional: Only present when assigned
   clientName: string;
   clientEmail: string;
   clientCompanyName: string;

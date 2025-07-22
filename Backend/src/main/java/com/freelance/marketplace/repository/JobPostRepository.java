@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface JobPostRepository extends JpaRepository<JobPost, Long> {
     List<JobPost> findByClient(User client);
+    List<JobPost> findByClientId(Long clientId);
     List<JobPost> findByTitleContainingIgnoreCase(String title);
     List<JobPost> findByBudgetBetween(java.math.BigDecimal min, java.math.BigDecimal max);
     List<JobPost> findByStatus(com.freelance.marketplace.entity.JobStatus status);

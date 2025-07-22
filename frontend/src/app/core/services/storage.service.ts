@@ -14,7 +14,9 @@ export class StorageService {
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+    const token = localStorage.getItem(this.TOKEN_KEY);
+    console.log('Retrieved token from storage:', token);
+    return token;
   }
 
   removeToken(): void {

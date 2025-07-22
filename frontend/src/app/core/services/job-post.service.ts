@@ -55,4 +55,8 @@ export class JobPostService {
   updateJobStatus(jobId: number, status: string) {
     return this.http.patch<JobPostResponse>(`${this.apiUrl}/${jobId}/status`, { status });
   }
+
+  markJobAsCompleted(jobId: number) {
+    return this.http.patch<JobPostResponse>(`/api/jobs/${jobId}/complete`, {});
+  }
 } 

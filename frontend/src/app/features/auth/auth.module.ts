@@ -9,6 +9,9 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from './components/login/login.component';
@@ -33,7 +36,10 @@ import { FreelancerProfileComponent } from '../freelancer/components/freelancer-
     MatRadioModule,
     MatProgressSpinnerModule,
     MatCardModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatToolbarModule,
+    MatSelectModule,
+    MatOptionModule
   ]
 })
 export class AuthModule { }

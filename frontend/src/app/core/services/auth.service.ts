@@ -66,6 +66,7 @@ export class AuthService {
   }
 
   private setSession(authResponse: AuthResponse): void {
+    console.log('Setting session with token:', authResponse.token);
     this.storageService.setToken(authResponse.token);
     if (authResponse.refreshToken) {
       this.storageService.setRefreshToken(authResponse.refreshToken);

@@ -1,5 +1,5 @@
 package com.freelance.marketplace.entity;
 
 public enum JobStatus {
-    OPEN, IN_PROGRESS, COMPLETED, CANCELLED
+    OPEN, PENDING_ASSIGNMENT, ASSIGNED, IN_PROGRESS, COMPLETED, CANCELLED
 }

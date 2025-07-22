@@ -19,7 +19,7 @@
 
 <div class="jobs-section" #jobsSection>
   <div class="jobs-grid">
-    <mat-card *ngFor="let job of jobs" class="job-card">
+    <mat-card *ngFor="let job of jobs" class="job-card" (click)="openJobDetailDialog(job); $event.stopPropagation()">
       <mat-card-header>
         <mat-card-title>{{ job.title }}</mat-card-title>
         <mat-card-subtitle>by {{ job.clientName }}</mat-card-subtitle>

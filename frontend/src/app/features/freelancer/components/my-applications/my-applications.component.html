@@ -1,0 +1,45 @@
+<div class="container">
+  <h1>My Job Applications</h1>
+  <mat-card *ngIf="loading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <p>Loading applications...</p>
+  </mat-card>
+  <mat-card *ngIf="error" class="error-card">
+    <mat-icon color="warn">error</mat-icon>
+    <span>{{ error }}</span>
+  </mat-card>
+  <div *ngIf="!loading && !error && applications.length === 0" class="empty-state">
+    <mat-icon>inbox</mat-icon>
+    <p>You have not applied to any jobs yet.</p>
+  </div>
+  <div *ngIf="!loading && !error && applications.length > 0">
+    <mat-list>
+      <mat-list-item *ngFor="let app of applications">
+        <mat-icon mat-list-icon>work</mat-icon>
+        <div mat-line>Job ID: {{app.jobId}}</div>
+        <div mat-line>Status: {{app.status}}</div>
+        <div mat-line>Applied on: {{app.appliedAt | date:'medium'}}</div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+  <h2 class="section-title">Accepted Jobs</h2>
+  <div *ngIf="acceptedJobs.length === 0" class="empty-state">
+    <mat-icon>inbox</mat-icon>
+    <p>No accepted jobs yet.</p>
+  </div>
+  <div *ngFor="let job of acceptedJobs">
+    <mat-card class="accepted-job-card">
+      <mat-card-title>{{ job.title }}</mat-card-title>
+      <mat-card-content>
+        <div><strong>Status:</strong> {{ job.status }}</div>
+        <div><strong>Budget:</strong> {{ job.budget | currency }}</div>
+        <div><strong>Deadline:</strong> {{ job.deadline | date }}</div>
+        <div><strong>Description:</strong> {{ job.description }}</div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-stroked-button color="primary" (click)="markAsCompleted(job.id)" [disabled]="job.status === 'COMPLETED'">Done</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

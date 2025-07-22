@@ -21,7 +21,7 @@ export class ClientProfileComponent implements OnInit {
   constructor(
     private clientProfileService: ClientProfileService,
     private fb: FormBuilder,
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router
   ) {}
 

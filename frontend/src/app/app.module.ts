@@ -26,9 +26,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
 import { AdminModule } from './features/admin/admin.module';
+import { MyApplicationsComponent } from './features/freelancer/components/my-applications/my-applications.component';
+import { ViewApplicationsComponent } from './features/client/components/view-applications/view-applications.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
-  declarations: [AppComponent, ClientProfileComponent, JobListComponent, ClientDashboardComponent, ClientJobsComponent, FreelancerProfileComponent, JobDetailDialogComponent],
+  declarations: [AppComponent, ClientProfileComponent, JobListComponent, ClientDashboardComponent, ClientJobsComponent, FreelancerProfileComponent, JobDetailDialogComponent, MyApplicationsComponent, ViewApplicationsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -48,7 +51,8 @@ import { AdminModule } from './features/admin/admin.module';
     MatDialogModule,
     MatChipsModule,
     MatSelectModule,
-    AdminModule
+    AdminModule,
+    MatSnackBarModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

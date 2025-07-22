@@ -1,0 +1,91 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.job-details-card {
+  margin-bottom: 32px;
+}
+
+.job-info-row {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 8px;
+  font-size: 15px;
+  flex-wrap: wrap;
+}
+
+.job-description {
+  margin-top: 12px;
+  color: #555;
+}
+
+.section-title {
+  margin: 32px 0 16px 0;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.applications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.application-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.application-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.freelancer-name {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.freelancer-email {
+  font-size: 13px;
+  color: #888;
+}
+
+.application-status {
+  margin-left: auto;
+  font-weight: 600;
+  text-transform: capitalize;
+  font-size: 15px;
+}
+
+.application-status.pending {
+  color: #ff9800;
+}
+.application-status.accepted {
+  color: #4caf50;
+}
+.application-status.rejected {
+  color: #f44336;
+}
+
+.application-meta {
+  font-size: 13px;
+  color: #666;
+}
+
+.application-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}

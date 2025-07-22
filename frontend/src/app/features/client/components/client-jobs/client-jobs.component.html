@@ -1,4 +1,8 @@
-<mat-card class="job-form-card">
+<div class="job-header-actions" style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+  <button mat-raised-button color="primary" (click)="toggleJobForm()" *ngIf="!showJobForm && !editingJob">Add Job</button>
+</div>
+
+<mat-card class="job-form-card" *ngIf="showJobForm || editingJob">
   <form [formGroup]="jobForm" (ngSubmit)="submitJob()" class="job-form">
     <h3 mat-card-title>{{ editingJob ? 'Edit Job' : 'Create Job' }}</h3>
     <mat-form-field appearance="outline">
@@ -22,6 +26,7 @@
         {{ editingJob ? 'Update' : 'Create' }}
       </button>
       <button mat-button type="button" *ngIf="editingJob" (click)="cancelEdit()">Cancel</button>
+      <button mat-button type="button" *ngIf="!editingJob" (click)="toggleJobForm()">Close</button>
     </div>
   </form>
 </mat-card>
@@ -57,6 +62,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
+      <button mat-button color="primary" [routerLink]="['/client/jobs', job.id, 'applications']">View Applications</button>
       <button mat-button color="accent" (click)="startEdit(job)">Edit</button>
       <button mat-button color="warn" (click)="deleteJob(job)">Delete</button>
     </mat-card-actions>

@@ -1,37 +1,51 @@
-<mat-card class="profile-card">
-  <div class="profile-header">
-    <span></span>
-    <button mat-stroked-button color="warn" (click)="logout()">
-      <mat-icon>logout</mat-icon> Logout
-    </button>
-  </div>
-  <div *ngIf="loading" class="loading">
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    <span>Loading profile...</span>
-  </div>
-  <div *ngIf="error" class="error">
-    <mat-icon color="warn">error</mat-icon>
-    <span>{{ error }}</span>
-  </div>
-  <form *ngIf="!loading && profile" [formGroup]="profileForm" (ngSubmit)="saveProfile()">
-    <h3 mat-card-title>Client Profile</h3>
-    <mat-form-field appearance="outline">
-      <mat-label>Company Name</mat-label>
-      <input matInput formControlName="companyName" [readonly]="!editMode" />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Bio</mat-label>
-      <textarea matInput formControlName="bio" [readonly]="!editMode"></textarea>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Website</mat-label>
-      <input matInput formControlName="website" [readonly]="!editMode" />
-    </mat-form-field>
-    <div class="form-actions">
-      <button mat-raised-button color="primary" type="button" *ngIf="!editMode" (click)="enableEdit()">Edit</button>
-      <button mat-raised-button color="primary" type="submit" *ngIf="editMode && !saving">Save</button>
-      <button mat-button type="button" *ngIf="editMode" (click)="cancelEdit()">Cancel</button>
-      <mat-progress-spinner *ngIf="saving" mode="indeterminate" diameter="24"></mat-progress-spinner>
+<!-- Toolbar removed: now only the dashboard layout provides the navigation -->
+<div class="profile-bg">
+  <mat-card class="profile-card">
+    <div class="profile-avatar">
+      <mat-icon>business</mat-icon>
     </div>
-  </form>
-</mat-card>
+    <h2 class="profile-title">{{ profile?.companyName || 'Your Company' }}</h2>
+    <div class="profile-contact">
+      <mat-icon>email</mat-icon>
+      <span>{{ authService.getCurrentUser()?.email || 'your@email.com' }}</span>
+    </div>
+    <div class="profile-contact" *ngIf="profile?.website">
+      <mat-icon>language</mat-icon>
+      <a [href]="profile?.website" target="_blank">{{ profile?.website }}</a>
+    </div>
+    <div class="profile-bio" *ngIf="profile?.bio">
+      <mat-icon>info</mat-icon>
+      <span>{{ profile?.bio }}</span>
+    </div>
+
+    <div *ngIf="loading" class="loading">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      <span>Loading profile...</span>
+    </div>
+    <div *ngIf="error" class="error">
+      <mat-icon color="warn">error</mat-icon>
+      <span>{{ error }}</span>
+    </div>
+
+    <form *ngIf="!loading && profile" [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="profile-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Company Name</mat-label>
+        <input matInput formControlName="companyName" [readonly]="!editMode" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Bio</mat-label>
+        <textarea matInput formControlName="bio" [readonly]="!editMode"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Website</mat-label>
+        <input matInput formControlName="website" [readonly]="!editMode" />
+      </mat-form-field>
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="button" *ngIf="!editMode" (click)="enableEdit()">Edit</button>
+        <button mat-raised-button color="primary" type="submit" *ngIf="editMode && !saving">Save</button>
+        <button mat-button type="button" *ngIf="editMode" (click)="cancelEdit()">Cancel</button>
+        <mat-progress-spinner *ngIf="saving" mode="indeterminate" diameter="24"></mat-progress-spinner>
+      </div>
+    </form>
+  </mat-card>
+</div>

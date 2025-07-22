@@ -104,6 +104,21 @@ public class JobService {
     }
 
     @Transactional
+    public JobPostResponse markJobAsCompleted(Long jobId, Long freelancerId) {
+        JobPost job = jobPostRepository.findById(jobId)
+                .orElseThrow(() -> new ResourceNotFoundException("Job not found"));
+        if (job.getFreelancer() == null || !job.getFreelancer().getId().equals(freelancerId)) {
+            throw new RuntimeException("Unauthorized: You are not assigned to this job");
+        }
+        if (job.getStatus() != JobStatus.IN_PROGRESS && job.getStatus() != JobStatus.ASSIGNED) {
+            throw new RuntimeException("Job is not in progress or assigned");
+        }
+        job.setStatus(JobStatus.COMPLETED);
+        job = jobPostRepository.save(job);
+        return toJobResponse(job);
+    }
+
+    @Transactional
     public void deleteJob(Long jobId, Long clientId) {
         JobPost job = jobPostRepository.findById(jobId)
                 .orElseThrow(() -> new ResourceNotFoundException("Job not found"));
@@ -129,6 +144,9 @@ public class JobService {
         resp.setClientEmail(job.getClient().getEmail());
         ClientProfile clientProfile = clientProfileRepository.findByUserId(job.getClient().getId()).orElse(null);
         resp.setClientCompanyName(clientProfile != null ? clientProfile.getCompanyName() : null);
+        if (job.getFreelancer() != null) {
+            resp.setFreelancerId(job.getFreelancer().getId());
+        }
         return resp;
     }
 }

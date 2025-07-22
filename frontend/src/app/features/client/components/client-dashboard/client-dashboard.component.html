@@ -3,6 +3,9 @@
   <span class="spacer"></span>
   <button mat-button routerLink="/client/jobs" routerLinkActive="active">Jobs</button>
   <button mat-button routerLink="/client/profile" routerLinkActive="active">Profile</button>
+  <button mat-stroked-button color="warn" (click)="logout()" style="margin-left: 16px;">
+    <mat-icon>logout</mat-icon> Logout
+  </button>
 </mat-toolbar>
 <div class="dashboard-content">
   <router-outlet></router-outlet>

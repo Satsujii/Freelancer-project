@@ -20,4 +20,5 @@ public class JobPostResponse {
     private String clientName;
     private String clientEmail;
     private String clientCompanyName;
+    private Long freelancerId;
 }
