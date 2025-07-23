@@ -4,7 +4,8 @@ import com.freelance.marketplace.service.JobApplicationService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -14,8 +15,16 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import java.util.Collections;
+import com.freelance.marketplace.security.CustomUserPrincipal;
+import com.freelance.marketplace.entity.User;
+import com.freelance.marketplace.entity.Role;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
+import com.freelance.marketplace.dto.JobApplicationDto;
 
-@WebMvcTest(JobApplicationController.class)
+@WithMockUser(username = "freelancer", roles = {"FREELANCER"})
+@SpringBootTest
+@AutoConfigureMockMvc
 class JobApplicationControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -32,11 +41,14 @@ class JobApplicationControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "FREELANCER")
     @DisplayName("POST /api/applications/apply/{jobId} returns 200")
     void applyForJob() throws Exception {
-        when(jobApplicationService.applyForJob(anyLong(), anyLong())).thenReturn(null);
-        mockMvc.perform(post("/api/applications/apply/1"))
+        when(jobApplicationService.applyForJob(anyLong(), anyLong())).thenReturn(new JobApplicationDto());
+        User user = new User(5L, "Freelancer", "freelancer@freelance.com", "freelancer123456", Role.FREELANCER, null, null, true);
+        CustomUserPrincipal principal = new CustomUserPrincipal(user);
+        mockMvc.perform(post("/api/applications/apply/1")
+                .with(authentication(new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities())))
+        )
                 .andExpect(status().isOk());
     }
 

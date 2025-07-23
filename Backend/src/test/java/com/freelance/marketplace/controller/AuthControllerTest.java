@@ -5,7 +5,11 @@ import com.freelance.marketplace.dto.AuthResponse;
 import com.freelance.marketplace.dto.LoginRequest;
 import com.freelance.marketplace.entity.Role;
 import com.freelance.marketplace.service.AuthService;
+import com.freelance.marketplace.service.JwtService;
+import com.freelance.marketplace.service.CustomUserDetailsService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +26,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(AuthController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class AuthControllerTest {
 
     @Autowired
@@ -40,6 +45,18 @@ class AuthControllerTest {
         @Primary
         public AuthService mockAuthService() {
             return Mockito.mock(AuthService.class);
+        }
+
+        @Bean
+        @Primary
+        public JwtService jwtService() {
+            return Mockito.mock(JwtService.class);
+        }
+
+        @Bean
+        @Primary
+        public CustomUserDetailsService customUserDetailsService() {
+            return Mockito.mock(CustomUserDetailsService.class);
         }
     }
 

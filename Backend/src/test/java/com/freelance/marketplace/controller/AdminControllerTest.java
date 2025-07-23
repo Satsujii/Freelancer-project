@@ -3,10 +3,17 @@ package com.freelance.marketplace.controller;
 import com.freelance.marketplace.entity.User;
 import com.freelance.marketplace.entity.JobPost;
 import com.freelance.marketplace.service.AdminService;
+import com.freelance.marketplace.service.JwtService;
+import com.freelance.marketplace.service.CustomUserDetailsService;
+import com.freelance.marketplace.repository.UserRepository;
+import com.freelance.marketplace.security.CustomUserPrincipal;
+import com.freelance.marketplace.entity.Role;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -16,8 +23,12 @@ import java.util.Collections;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.springframework.security.test.context.support.WithMockUser;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 
-@WebMvcTest(AdminController.class)
+@WithMockUser(username = "admin", roles = {"ADMIN"})
+@SpringBootTest
+@AutoConfigureMockMvc
 class AdminControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -31,13 +42,29 @@ class AdminControllerTest {
         public AdminService adminService() {
             return org.mockito.Mockito.mock(AdminService.class);
         }
+        
+        @Bean
+        @Primary
+        public JwtService jwtService() {
+            return org.mockito.Mockito.mock(JwtService.class);
+        }
+
+        @Bean
+        @Primary
+        public CustomUserDetailsService customUserDetailsService() {
+            return org.mockito.Mockito.mock(CustomUserDetailsService.class);
+        }
     }
 
     @Test
     @DisplayName("GET /api/admin/users returns 200")
     void getAllUsers() throws Exception {
         when(adminService.getAllUsers()).thenReturn(Collections.emptyList());
-        mockMvc.perform(get("/api/admin/users"))
+        User user = new User(1L, "Admin", "admin@admin.com", "admin123456", Role.ADMIN, null, null, true);
+        CustomUserPrincipal principal = new CustomUserPrincipal(user);
+        mockMvc.perform(get("/api/admin/users")
+                .with(authentication(new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities())))
+        )
                 .andExpect(status().isOk());
     }
 

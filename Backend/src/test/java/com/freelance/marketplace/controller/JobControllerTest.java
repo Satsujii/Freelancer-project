@@ -4,7 +4,8 @@ import com.freelance.marketplace.service.JobService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -14,8 +15,16 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import java.util.Collections;
+import org.springframework.security.test.context.support.WithMockUser;
+import com.freelance.marketplace.security.CustomUserPrincipal;
+import com.freelance.marketplace.entity.User;
+import com.freelance.marketplace.entity.Role;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 
-@WebMvcTest(JobController.class)
+@WithMockUser(username = "client", roles = {"CLIENT"})
+@SpringBootTest
+@AutoConfigureMockMvc
 class JobControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -59,7 +68,10 @@ class JobControllerTest {
     @DisplayName("POST /api/jobs returns 200")
     void createJob() throws Exception {
         when(jobService.createJob(any(), anyLong())).thenReturn(null);
+        User user = new User(1L, "Test Client", "client@example.com", "password", Role.CLIENT, null, null, true);
+        CustomUserPrincipal principal = new CustomUserPrincipal(user);
         mockMvc.perform(post("/api/jobs")
+                .with(authentication(new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities())))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"))
                 .andExpect(status().isOk());
@@ -69,7 +81,10 @@ class JobControllerTest {
     @DisplayName("PUT /api/jobs/{id} returns 200")
     void updateJob() throws Exception {
         when(jobService.updateJob(anyLong(), any(), anyLong())).thenReturn(null);
+        User user = new User(1L, "Test Client", "client@example.com", "password", Role.CLIENT, null, null, true);
+        CustomUserPrincipal principal = new CustomUserPrincipal(user);
         mockMvc.perform(put("/api/jobs/1")
+                .with(authentication(new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities())))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"))
                 .andExpect(status().isOk());
@@ -79,7 +94,11 @@ class JobControllerTest {
     @DisplayName("DELETE /api/jobs/{id} returns 204")
     void deleteJob() throws Exception {
         doNothing().when(jobService).deleteJob(anyLong(), anyLong());
-        mockMvc.perform(delete("/api/jobs/1"))
+        User user = new User(1L, "Test Client", "client@example.com", "password", Role.CLIENT, null, null, true);
+        CustomUserPrincipal principal = new CustomUserPrincipal(user);
+        mockMvc.perform(delete("/api/jobs/1")
+                .with(authentication(new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities())))
+        )
                 .andExpect(status().isNoContent());
     }
 } 

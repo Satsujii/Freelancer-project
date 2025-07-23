@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import com.freelance.marketplace.security.CustomUserPrincipal;
 
 @RestController
 @RequestMapping("/api/freelancer-profiles")
@@ -49,9 +50,11 @@ public class FreelancerProfileController {
     // Helper method to extract current user ID from security context
     private Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // Adjust this based on how you store user details in your project
-        // For example, if using a custom UserDetails with getId(), cast and use that
-        // Or if the username is the user ID, parse it to Long
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof CustomUserPrincipal) {
+            return ((CustomUserPrincipal) principal).getId();
+        }
+        // fallback for legacy or test cases
         return Long.parseLong(authentication.getName());
     }
 }
