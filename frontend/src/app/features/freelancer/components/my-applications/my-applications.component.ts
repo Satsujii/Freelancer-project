@@ -3,6 +3,7 @@ import { JobApplicationService } from 'src/app/core/services/job-application.ser
 import { JobApplication } from 'src/app/core/models/job-application.model';
 import { JobPostService } from 'src/app/core/services/job-post.service';
 import { JobPostResponse } from 'src/app/core/models/job-post.model';
+import { ApplicationStatus } from 'src/app/core/models/application-status.enum';
 
 @Component({
   selector: 'app-my-applications',
@@ -14,6 +15,11 @@ export class MyApplicationsComponent implements OnInit {
   acceptedJobs: JobPostResponse[] = [];
   loading = false;
   error: string | null = null;
+
+  // Grouped applications
+  pendingApplications: JobApplication[] = [];
+  acceptedApplications: JobApplication[] = [];
+  rejectedApplications: JobApplication[] = [];
 
   constructor(private jobApplicationService: JobApplicationService, private jobPostService: JobPostService) { }
 
@@ -27,6 +33,9 @@ export class MyApplicationsComponent implements OnInit {
     this.jobApplicationService.getApplicationsForFreelancer().subscribe({
       next: (apps) => {
         this.applications = apps;
+        this.pendingApplications = apps.filter(app => app.status === ApplicationStatus.PENDING);
+        this.acceptedApplications = apps.filter(app => app.status === ApplicationStatus.ACCEPTED);
+        this.rejectedApplications = apps.filter(app => app.status === ApplicationStatus.REJECTED);
         this.loading = false;
       },
       error: (err) => {
@@ -50,4 +59,6 @@ export class MyApplicationsComponent implements OnInit {
       this.fetchAcceptedJobs();
     });
   }
+
+  ApplicationStatus = ApplicationStatus; // for template access
 }

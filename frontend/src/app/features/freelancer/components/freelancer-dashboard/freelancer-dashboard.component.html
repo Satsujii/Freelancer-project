@@ -1,1 +1,15 @@
-<p>freelancer-dashboard works!</p>
+<div *ngIf="loading">Loading recommendations...</div>
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<div *ngIf="!loading && !error">
+  <h2>Recommended Jobs for You</h2>
+  <ul *ngIf="recommendations.length > 0; else noRecs">
+    <li *ngFor="let job of recommendations">
+      <strong>{{ job.title }}</strong> - {{ job.description }}<br>
+      <span>Budget: {{ job.budget | currency }}</span> | Deadline: {{ job.deadline | date }}
+    </li>
+  </ul>
+  <ng-template #noRecs>
+    <p>No recommendations available at this time.</p>
+  </ng-template>
+</div>

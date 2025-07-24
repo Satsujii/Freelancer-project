@@ -1,0 +1,128 @@
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #2d3a4a;
+  letter-spacing: 0.5px;
+}
+
+h2 {
+  margin-top: 2.5rem;
+  font-size: 1.3rem;
+  color: #3f51b5;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.section-title {
+  margin-top: 3rem;
+  color: #009688;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+mat-card {
+  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(60,60,60,0.07);
+  padding: 1rem 1.5rem;
+}
+
+mat-card.accepted-job-card {
+  border-left: 5px solid #3f51b5;
+  background: #f5f8ff;
+}
+
+mat-card.error-card {
+  background: #fff3f3;
+  color: #d32f2f;
+  border-left: 5px solid #d32f2f;
+}
+
+mat-list {
+  background: #f9f9f9;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+
+mat-list-item {
+  border-bottom: 1px solid #e0e0e0;
+  transition: background 0.2s;
+  cursor: pointer;
+  &:hover {
+    background: #f0f4ff;
+  }
+  .mat-list-icon {
+    margin-right: 1rem;
+    font-size: 2rem;
+  }
+  &[ng-reflect-ng-for-of][ng-reflect-ng-for-of*='pendingApplications'] {
+    .mat-list-icon {
+      color: #ffb300;
+    }
+  }
+  &[ng-reflect-ng-for-of][ng-reflect-ng-for-of*='acceptedApplications'] {
+    .mat-list-icon {
+      color: #43a047;
+    }
+  }
+  &[ng-reflect-ng-for-of][ng-reflect-ng-for-of*='rejectedApplications'] {
+    .mat-list-icon {
+      color: #e53935;
+    }
+  }
+}
+
+.empty-state {
+  text-align: center;
+  color: #b0b0b0;
+  margin: 2rem 0;
+  .mat-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+mat-progress-spinner {
+  display: block;
+  margin: 1rem auto;
+}
+
+mat-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+mat-card-content > div {
+  margin-bottom: 0.3rem;
+}
+
+button[mat-stroked-button] {
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0.5rem;
+  }
+  h1 {
+    font-size: 1.3rem;
+  }
+  h2, .section-title {
+    font-size: 1rem;
+  }
+  mat-card {
+    padding: 0.7rem 0.5rem;
+  }
+}

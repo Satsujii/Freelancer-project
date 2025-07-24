@@ -12,15 +12,46 @@
     <mat-icon>inbox</mat-icon>
     <p>You have not applied to any jobs yet.</p>
   </div>
+
   <div *ngIf="!loading && !error && applications.length > 0">
-    <mat-list>
-      <mat-list-item *ngFor="let app of applications">
-        <mat-icon mat-list-icon>work</mat-icon>
+    <h2>Pending Applications</h2>
+    <mat-list *ngIf="pendingApplications.length > 0; else noPending">
+      <mat-list-item *ngFor="let app of pendingApplications">
+        <mat-icon mat-list-icon>hourglass_empty</mat-icon>
         <div mat-line>Job ID: {{app.jobId}}</div>
         <div mat-line>Status: {{app.status}}</div>
         <div mat-line>Applied on: {{app.appliedAt | date:'medium'}}</div>
       </mat-list-item>
     </mat-list>
+    <ng-template #noPending>
+      <p>No pending applications.</p>
+    </ng-template>
+
+    <h2>Accepted Applications</h2>
+    <mat-list *ngIf="acceptedApplications.length > 0; else noAccepted">
+      <mat-list-item *ngFor="let app of acceptedApplications">
+        <mat-icon mat-list-icon color="primary">check_circle</mat-icon>
+        <div mat-line>Job ID: {{app.jobId}}</div>
+        <div mat-line>Status: {{app.status}}</div>
+        <div mat-line>Applied on: {{app.appliedAt | date:'medium'}}</div>
+      </mat-list-item>
+    </mat-list>
+    <ng-template #noAccepted>
+      <p>No accepted applications.</p>
+    </ng-template>
+
+    <h2>Rejected Applications</h2>
+    <mat-list *ngIf="rejectedApplications.length > 0; else noRejected">
+      <mat-list-item *ngFor="let app of rejectedApplications">
+        <mat-icon mat-list-icon color="warn">cancel</mat-icon>
+        <div mat-line>Job ID: {{app.jobId}}</div>
+        <div mat-line>Status: {{app.status}}</div>
+        <div mat-line>Applied on: {{app.appliedAt | date:'medium'}}</div>
+      </mat-list-item>
+    </mat-list>
+    <ng-template #noRejected>
+      <p>No rejected applications.</p>
+    </ng-template>
   </div>
 
   <h2 class="section-title">Accepted Jobs</h2>
