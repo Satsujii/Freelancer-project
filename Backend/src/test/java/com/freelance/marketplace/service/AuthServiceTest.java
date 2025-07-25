@@ -42,7 +42,6 @@ class AuthServiceTest {
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         authService = new AuthService();
-        // Use reflection to inject mocks into private fields
         Field userRepoField = AuthService.class.getDeclaredField("userRepository");
         userRepoField.setAccessible(true);
         userRepoField.set(authService, userRepository);
