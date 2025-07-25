@@ -29,7 +29,6 @@ class FreelancerProfileServiceTest {
     void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
         service = new FreelancerProfileService();
-        // Use reflection to inject mocks into private fields
         Field freelancerRepoField = FreelancerProfileService.class.getDeclaredField("freelancerRepo");
         freelancerRepoField.setAccessible(true);
         freelancerRepoField.set(service, freelancerRepo);
