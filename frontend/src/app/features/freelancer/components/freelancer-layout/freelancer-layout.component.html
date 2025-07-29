@@ -1,33 +1,33 @@
-<div class="admin-layout">
+<div class="freelancer-layout">
   <!-- Sidebar Navigation -->
   <nav class="sidebar">
     <div class="sidebar-header">
       <div class="logo-container">
-        <mat-icon class="logo-icon">admin_panel_settings</mat-icon>
-        <h2 class="logo-text">Admin Panel</h2>
+        <mat-icon class="logo-icon">person</mat-icon>
+        <h2 class="logo-text">Freelancer Hub</h2>
       </div>
     </div>
     
     <div class="nav-menu">
-      <a mat-button routerLink="/admin/dashboard" routerLinkActive="active" class="nav-item">
+      <a mat-button routerLink="/freelancer/dashboard" routerLinkActive="active" class="nav-item">
         <mat-icon>dashboard</mat-icon>
         <span>Dashboard</span>
       </a>
-      <a mat-button routerLink="/admin/users" routerLinkActive="active" class="nav-item">
-        <mat-icon>people</mat-icon>
-        <span>Users</span>
+      <a mat-button routerLink="/freelancer/jobs" routerLinkActive="active" class="nav-item">
+        <mat-icon>search</mat-icon>
+        <span>Browse Jobs</span>
       </a>
-      <a mat-button routerLink="/admin/jobs" routerLinkActive="active" class="nav-item">
-        <mat-icon>work</mat-icon>
-        <span>Jobs</span>
-      </a>
-      <a mat-button routerLink="/admin/applications" routerLinkActive="active" class="nav-item">
+      <a mat-button routerLink="/freelancer/applications" routerLinkActive="active" class="nav-item">
         <mat-icon>assignment</mat-icon>
-        <span>Applications</span>
+        <span>My Applications</span>
       </a>
-      <a mat-button routerLink="/admin/reports" routerLinkActive="active" class="nav-item">
-        <mat-icon>analytics</mat-icon>
-        <span>Reports</span>
+      <a mat-button routerLink="/freelancer/profile" routerLinkActive="active" class="nav-item">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </a>
+      <a mat-button routerLink="/freelancer/earnings" routerLinkActive="active" class="nav-item">
+        <mat-icon>monetization_on</mat-icon>
+        <span>Earnings</span>
       </a>
     </div>
     
@@ -52,7 +52,7 @@
       
       <div class="header-right">
         <button mat-icon-button class="notification-btn">
-          <mat-icon matBadge="3" matBadgeColor="warn">notifications</mat-icon>
+          <mat-icon matBadge="4" matBadgeColor="warn">notifications</mat-icon>
         </button>
         
         <div class="user-profile">
@@ -60,7 +60,7 @@
             <div class="avatar">
               <mat-icon>account_circle</mat-icon>
             </div>
-            <span class="username">Admin User</span>
+            <span class="username">Freelancer User</span>
             <mat-icon>expand_more</mat-icon>
           </button>
         </div>
@@ -72,4 +72,4 @@
       <router-outlet></router-outlet>
     </main>
   </div>
-</div> 
+</div>

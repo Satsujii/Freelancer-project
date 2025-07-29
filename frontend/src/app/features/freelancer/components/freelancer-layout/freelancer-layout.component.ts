@@ -4,11 +4,11 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-admin-layout',
-  templateUrl: './admin-layout.component.html',
-  styleUrls: ['./admin-layout.component.scss']
+  selector: 'app-freelancer-layout',
+  templateUrl: './freelancer-layout.component.html',
+  styleUrls: ['./freelancer-layout.component.scss']
 })
-export class AdminLayoutComponent {
+export class FreelancerLayoutComponent {
   sidebarOpen = false;
   currentRoute = '';
 
@@ -32,13 +32,13 @@ export class AdminLayoutComponent {
 
   getPageTitle(): string {
     const routeTitleMap: { [key: string]: string } = {
-      '/admin/dashboard': 'Dashboard',
-      '/admin/users': 'User Management',
-      '/admin/jobs': 'Job Management',
-      '/admin/applications': 'Applications',
-      '/admin/reports': 'Reports'
+      '/freelancer/dashboard': 'Dashboard',
+      '/freelancer/jobs': 'Browse Jobs',
+      '/freelancer/applications': 'My Applications',
+      '/freelancer/profile': 'Profile',
+      '/freelancer/earnings': 'Earnings'
     };
     
-    return routeTitleMap[this.currentRoute] || 'Admin Panel';
+    return routeTitleMap[this.currentRoute] || 'Freelancer Hub';
   }
-} 
+}

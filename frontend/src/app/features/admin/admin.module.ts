@@ -20,6 +20,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatInputModule } from '@angular/material/input';
+import { MatSortModule } from '@angular/material/sort';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -45,6 +49,10 @@ import { MatButtonModule } from '@angular/material/button';
     MatSelectModule,
     MatToolbarModule,
     MatButtonModule,
+    MatTooltipModule,
+    MatInputModule,
+    MatSortModule,
+    MatBadgeModule,
     AdminRoutingModule
   ],
   exports: [AdminDashboardComponent, AdminLayoutComponent]

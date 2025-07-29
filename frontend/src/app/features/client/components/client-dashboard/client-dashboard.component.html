@@ -1,12 +1,127 @@
-<mat-toolbar color="primary" class="mat-elevation-z4">
-  <span class="logo">Client Dashboard</span>
-  <span class="spacer"></span>
-  <button mat-button routerLink="/client/jobs" routerLinkActive="active">Jobs</button>
-  <button mat-button routerLink="/client/profile" routerLinkActive="active">Profile</button>
-  <button mat-stroked-button color="warn" (click)="logout()" style="margin-left: 16px;">
-    <mat-icon>logout</mat-icon> Logout
-  </button>
-</mat-toolbar>
-<div class="dashboard-content">
-  <router-outlet></router-outlet>
+<div class="dashboard-container">
+  <!-- Header Section -->
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">Client Dashboard</h1>
+    <p class="dashboard-subtitle">Manage your projects and find the best talent</p>
+  </div>
+
+  <!-- Stats Cards Row -->
+  <div class="stats-grid">
+    <mat-card class="stat-card primary">
+      <div class="stat-content">
+        <div class="stat-icon">
+          <mat-icon>work</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>Active Jobs</h3>
+          <div class="stat-value">5</div>
+          <div class="stat-change positive">+2 this month</div>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="stat-card success">
+      <div class="stat-content">
+        <div class="stat-icon">
+          <mat-icon>assignment</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>Applications</h3>
+          <div class="stat-value">28</div>
+          <div class="stat-change positive">+15 this week</div>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="stat-card warning">
+      <div class="stat-content">
+        <div class="stat-icon">
+          <mat-icon>people</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>Hired Freelancers</h3>
+          <div class="stat-value">8</div>
+          <div class="stat-change">This month</div>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="stat-card secondary">
+      <div class="stat-content">
+        <div class="stat-icon">
+          <mat-icon>monetization_on</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>Budget Spent</h3>
+          <div class="stat-value">$12.5k</div>
+          <div class="stat-change">This quarter</div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions">
+    <mat-card class="action-card">
+      <mat-card-header>
+        <mat-card-title>Quick Actions</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="action-buttons">
+          <button mat-raised-button color="primary" routerLink="/client/post-job">
+            <mat-icon>add</mat-icon>
+            Post New Job
+          </button>
+          <button mat-raised-button color="accent" routerLink="/client/applications">
+            <mat-icon>assignment</mat-icon>
+            View Applications
+          </button>
+          <button mat-raised-button routerLink="/client/jobs">
+            <mat-icon>work</mat-icon>
+            Manage Jobs
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Recent Activity -->
+    <mat-card class="activity-card">
+      <mat-card-header>
+        <mat-card-title>Recent Activity</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-icon">
+              <mat-icon class="application">assignment</mat-icon>
+            </div>
+            <div class="activity-content">
+              <p class="activity-text">3 new applications for "React Developer"</p>
+              <span class="activity-time">2 hours ago</span>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon">
+              <mat-icon class="job">work</mat-icon>
+            </div>
+            <div class="activity-content">
+              <p class="activity-text">Job "UI/UX Designer" was published</p>
+              <span class="activity-time">1 day ago</span>
+            </div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-icon">
+              <mat-icon class="hire">person_add</mat-icon>
+            </div>
+            <div class="activity-content">
+              <p class="activity-text">Hired John Doe for "Backend Developer"</p>
+              <span class="activity-time">3 days ago</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div> 

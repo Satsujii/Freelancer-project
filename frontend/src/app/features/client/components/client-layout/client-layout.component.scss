@@ -1,4 +1,4 @@
-.admin-layout {
+.client-layout {
   display: flex;
   height: 100vh;
   overflow: hidden;
@@ -6,7 +6,7 @@
 
 .sidebar {
   width: 280px;
-  background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+  background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
   color: white;
   display: flex;
   flex-direction: column;
@@ -27,7 +27,7 @@
         width: 32px;
         height: 32px;
         margin-right: 12px;
-        color: #3498db;
+        color: #4fc3f7;
       }
       
       .logo-text {
@@ -63,9 +63,9 @@
       }
       
       &.active {
-        background: linear-gradient(90deg, #3498db, #2980b9);
+        background: linear-gradient(90deg, #4fc3f7, #29b6f6);
         color: white;
-        border-left: 4px solid #ecf0f1;
+        border-left: 4px solid #e1f5fe;
         
         mat-icon {
           color: white;
@@ -150,15 +150,15 @@
       color: #666;
       
       &:hover {
-        background: rgba(102, 126, 234, 0.1);
-        color: #667eea;
+        background: rgba(79, 195, 247, 0.1);
+        color: #4fc3f7;
       }
     }
     
     .page-title {
       font-size: 1.5rem;
       font-weight: 600;
-      color: #2c3e50;
+      color: #1e3c72;
       margin: 0;
     }
   }
@@ -172,8 +172,8 @@
       color: #666;
       
       &:hover {
-        background: rgba(102, 126, 234, 0.1);
-        color: #667eea;
+        background: rgba(79, 195, 247, 0.1);
+        color: #4fc3f7;
       }
     }
     
@@ -183,12 +183,12 @@
         align-items: center;
         padding: 8px 16px;
         border-radius: 25px;
-        background: rgba(102, 126, 234, 0.1);
-        color: #667eea;
+        background: rgba(79, 195, 247, 0.1);
+        color: #4fc3f7;
         transition: all 0.3s ease;
         
         &:hover {
-          background: rgba(102, 126, 234, 0.2);
+          background: rgba(79, 195, 247, 0.2);
           transform: translateY(-1px);
         }
         
@@ -217,7 +217,6 @@
   overflow-y: auto;
   background: transparent;
   
-  // Remove default padding since each page will handle its own
   ::ng-deep {
     > * {
       min-height: 100%;
@@ -264,21 +263,3 @@
     }
   }
 }
-
-// Sidebar toggle animation
-.sidebar-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  display: none;
-  
-  @media (max-width: 768px) {
-    &.show {
-      display: block;
-    }
-  }
-} 

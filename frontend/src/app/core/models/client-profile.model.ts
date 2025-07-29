@@ -4,6 +4,4 @@ export interface ClientProfile {
   bio: string;
   website: string;
   createdAt: string;
-  // Optionally, add user if needed
-  // user?: User;
 } 

@@ -1,38 +1,170 @@
-<div *ngIf="loading; else loaded">
-  <mat-spinner></mat-spinner>
+<div class="users-container" *ngIf="!loading; else loadingTpl">
+  <!-- Header Section -->
+  <div class="page-header">
+    <h1 class="page-title">User Management</h1>
+    <p class="page-subtitle">Manage all registered users in the system</p>
+    
+    <div class="header-actions">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search users...</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search by name, email or role">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      
+      <button mat-raised-button color="primary" class="add-btn" (click)="addUser()">
+        <mat-icon>add</mat-icon>
+        Add User
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <mat-card class="stat-card primary">
+      <div class="stat-content">
+        <div class="stat-icon">
+          <mat-icon>people</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>Total Users</h3>
+          <div class="stat-value">{{ filteredUsers.length }}</div>
+        </div>
+      </div>
+    </mat-card>
+    
+    <mat-card class="stat-card success">
+      <div class="stat-content">
+        <div class="stat-icon">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>Active Users</h3>
+          <div class="stat-value">{{ getActiveUsersCount() }}</div>
+        </div>
+      </div>
+    </mat-card>
+    
+    <mat-card class="stat-card warning">
+      <div class="stat-content">
+        <div class="stat-icon">
+          <mat-icon>admin_panel_settings</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>Admins</h3>
+          <div class="stat-value">{{ getAdminsCount() }}</div>
+        </div>
+      </div>
+    </mat-card>
+    
+    <mat-card class="stat-card secondary">
+      <div class="stat-content">
+        <div class="stat-icon">
+          <mat-icon>work</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>Freelancers</h3>
+          <div class="stat-value">{{ getFreelancersCount() }}</div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="error-message">
+    <mat-icon>error</mat-icon>
+    <span>{{ error }}</span>
+  </div>
+
+  <!-- Users Table -->
+  <mat-card class="table-card" *ngIf="!error">
+    <mat-card-header>
+      <mat-card-title>All Users</mat-card-title>
+      <mat-card-subtitle>Complete list of registered users</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <div class="table-container">
+        <table mat-table [dataSource]="filteredUsers" class="users-table" matSort>
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let user">
+              <span class="user-id">#{{ user.id }}</span>
+            </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <td mat-cell *matCellDef="let user">
+              <div class="user-info">
+                <div class="avatar">
+                  <mat-icon>account_circle</mat-icon>
+                </div>
+                <span class="user-name">{{ user.name }}</span>
+              </div>
+            </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+            <td mat-cell *matCellDef="let user">
+              <span class="user-email">{{ user.email }}</span>
+            </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
+            <td mat-cell *matCellDef="let user">
+              <span class="role-badge" [ngClass]="getRoleClass(user.role)">
+                {{ user.role }}
+              </span>
+            </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="enabled">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <td mat-cell *matCellDef="let user">
+              <span class="status-badge" [ngClass]="user.enabled ? 'active' : 'inactive'">
+                <mat-icon>{{ user.enabled ? 'check_circle' : 'cancel' }}</mat-icon>
+                {{ user.enabled ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let user">
+              <div class="action-buttons">
+                <button mat-icon-button color="primary" 
+                        (click)="editUser(user)" 
+                        matTooltip="Edit User">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="accent" 
+                        (click)="toggleUserStatus(user)" 
+                        [matTooltip]="user.enabled ? 'Deactivate User' : 'Activate User'">
+                  <mat-icon>{{ user.enabled ? 'block' : 'check_circle' }}</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" 
+                        (click)="deleteUser(user)" 
+                        matTooltip="Delete User">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+          
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsWithActions"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsWithActions;" 
+              class="table-row"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
-<ng-template #loaded>
-  <h2>All Users</h2>
-  <div *ngIf="error" class="error">{{ error }}</div>
-  <table mat-table [dataSource]="filteredUsers" class="mat-elevation-z8" *ngIf="!error">
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef>ID</th>
-      <td mat-cell *matCellDef="let user">{{ user.id }}</td>
-    </ng-container>
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let user">{{ user.name }}</td>
-    </ng-container>
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef>Email</th>
-      <td mat-cell *matCellDef="let user">{{ user.email }}</td>
-    </ng-container>
-    <ng-container matColumnDef="role">
-      <th mat-header-cell *matHeaderCellDef>Role</th>
-      <td mat-cell *matCellDef="let user">{{ user.role }}</td>
-    </ng-container>
-    <ng-container matColumnDef="enabled">
-      <th mat-header-cell *matHeaderCellDef>Enabled</th>
-      <td mat-cell *matCellDef="let user">{{ user.enabled ? 'Yes' : 'No' }}</td>
-    </ng-container>
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>Actions</th>
-      <td mat-cell *matCellDef="let user">
-        <button mat-icon-button color="primary" (click)="editUser(user)"><mat-icon>edit</mat-icon></button>
-        <button mat-icon-button color="warn" (click)="deleteUser(user)"><mat-icon>delete</mat-icon></button>
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumnsWithActions"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumnsWithActions;"></tr>
-  </table>
+
+<ng-template #loadingTpl>
+  <div class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading users...</p>
+  </div>
 </ng-template> 

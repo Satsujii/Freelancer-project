@@ -1,14 +1,107 @@
-<div class="dashboard-stats" *ngIf="!loading; else loadingTpl">
-  <h2>Admin Dashboard</h2>
-  <mat-card class="stat-card">
-    <h3>Total Jobs</h3>
-    <div class="stat-value">{{ totalJobs }}</div>
-  </mat-card>
-  <mat-card class="stat-card" *ngFor="let status of statistics | keyvalue">
-    <h3>{{ status.key }}</h3>
-    <div class="stat-value">{{ status.value }}</div>
+<div class="dashboard-container" *ngIf="!loading; else loadingTpl">
+  <!-- Header Section -->
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">Admin Dashboard</h1>
+    <p class="dashboard-subtitle">Monitor your job portal performance</p>
+  </div>
+
+  <!-- Stats Cards Row -->
+  <div class="stats-grid">
+    <mat-card class="stat-card primary">
+      <div class="stat-content">
+        <div class="stat-icon">
+          <mat-icon>work</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>Total Jobs</h3>
+          <div class="stat-value">{{ totalJobs }}</div>
+          <div class="stat-change positive">+12% from last month</div>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="stat-card" *ngFor="let status of statistics | keyvalue; let i = index" 
+              [ngClass]="getCardClass(i)">
+      <div class="stat-content">
+        <div class="stat-icon">
+          <mat-icon>{{ getStatusIcon(status.key) }}</mat-icon>
+        </div>
+        <div class="stat-info">
+          <h3>{{ formatStatusKey(status.key) }}</h3>
+          <div class="stat-value">{{ status.value }}</div>
+          <div class="stat-percentage">{{ getPercentage(status.value) }}% of total</div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts-grid">
+    <!-- Job Status Chart -->
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Job Status Distribution</mat-card-title>
+        <mat-card-subtitle>Current job status breakdown</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas #pieChart width="400" height="300"></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Jobs Over Time Chart -->
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Jobs Posted Over Time</mat-card-title>
+        <mat-card-subtitle>Last 6 months trend</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas #lineChart width="400" height="300"></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Applications Chart -->
+    <mat-card class="chart-card full-width">
+      <mat-card-header>
+        <mat-card-title>Application Analytics</mat-card-title>
+        <mat-card-subtitle>Weekly application statistics</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-container">
+          <canvas #barChart width="800" height="300"></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Recent Activity Section -->
+  <mat-card class="activity-card">
+    <mat-card-header>
+      <mat-card-title>Recent Activity</mat-card-title>
+      <mat-card-subtitle>Latest system activities</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="activity-list">
+        <div class="activity-item" *ngFor="let activity of recentActivities">
+          <div class="activity-icon">
+            <mat-icon [ngClass]="activity.type">{{ activity.icon }}</mat-icon>
+          </div>
+          <div class="activity-content">
+            <p class="activity-text">{{ activity.description }}</p>
+            <span class="activity-time">{{ activity.timestamp | date:'short' }}</span>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
   </mat-card>
 </div>
+
 <ng-template #loadingTpl>
-  <mat-spinner></mat-spinner>
+  <div class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading dashboard data...</p>
+  </div>
 </ng-template> 
