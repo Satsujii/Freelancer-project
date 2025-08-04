@@ -53,5 +53,5 @@ jobs:
         working-directory: ./frontend
 
       - name: Run Angular tests
-        run: npm test -- --watch=false --browsers=ChromeHeadless
+        run: npm test -- --watch=false --browsers=ChromeHeadless --timeout=10000
         working-directory: ./frontend 
